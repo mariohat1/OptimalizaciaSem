@@ -5,7 +5,11 @@ public class Main {
 
         Heuristika heuristika = new Heuristika();
         heuristika.algoritmus();
+        heuristika.printToFile("primarnaVsuvaciaHeurisitka");
+        heuristika.printResults();
         heuristika.betterSolution();
+        heuristika.printToFile("vylepsenieHeuristiky");
+        heuristika.printResults();
 
     }
 }

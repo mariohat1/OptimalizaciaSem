@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.AbstractExecutorService;
@@ -11,6 +13,8 @@ public class Heuristika {
     private ArrayList<Item> solution;
     private static final int R = 350;
     private Reader data1;
+    private int totalWeigth;
+    private int totalCost;
 
     public Heuristika() throws FileNotFoundException {
         this.reader = new Reader("H1_c.txt", "H1_a.txt");
@@ -24,7 +28,7 @@ public class Heuristika {
             Item bestWeight = null;
             for (Item item : this.data) {
                 if (!item.isAdded() && currentWeight + item.getWeight() <= K) {
-                    if (bestWeight == null || item.getWeight() < bestWeight.getWeight()) {
+                    if (bestWeight == null || item.getWeight() <= bestWeight.getWeight()) {
                         bestWeight = item;
                     }
                 }
@@ -39,28 +43,31 @@ public class Heuristika {
             currentWeight += bestWeight.getWeight();
 
         }
-        int totalCost = 0;
+
         for (Item item : this.solution) {
-            totalCost += item.getCost();
+            this.totalCost += item.getCost();
         }
-        System.out.println("Pocet prkov: " + solution.size());
-        System.out.println("Celkova hmotnosť: " + currentWeight);
-        System.out.println("Hodnota ucelovej funckie: " + totalCost);
+        this.totalWeigth = currentWeight;
+
+
+
+    }
+    public void printToFile(String fileName) throws FileNotFoundException {
+        PrintStream printer = new PrintStream(new File(fileName));
+        printer.println("Predmety v batohu");
+        for (Item item : this.solution) {
+            printer.printf("%-20s %-15s %-15s%n", "Cislo predmetu: " + item.getIndex(), "Hmotnost: " + item.getWeight(),"Cena: " + item.getCost());
+        }
+        printer.println("Pocet predmetov: " + solution.size());
+        printer.println("Celkova hmotnosť: " + this.totalWeigth );
+        printer.println("Hodnota ucelovej funckie: " + this.totalCost);
+
+        printer.close();
 
 
     }
 
     public void betterSolution() {
-        int totalCost = 0;
-        int totalWeigth = 0;
-
-
-        for (Item item : solution) {
-            totalCost += item.getCost();
-            totalWeigth += item.getWeight();
-
-        }
-
 
         for (int i = 0; i < solution.size(); i++) {
             Item current = solution.get(i);
@@ -87,29 +94,14 @@ public class Heuristika {
         }
 
 
-        totalWeigth = 0;
-        totalCost = 0;
-        for (
-                Item item : solution) {
-            totalCost += item.
 
-                    getCost();
-
-            totalWeigth += item.
-
-                    getWeight();
-        }
-        System.out.
-
-                println("Pocet prkov: " + solution.size());
-        System.out.
-
-                println("Celkova hmotnosť: " + totalWeigth);
-        System.out.
-
-                println("Hodnota ucelovej funckie: " + totalCost);
     }
+        public void printResults() {
+            System.out.println("Pocet predmetov: " + solution.size());
+            System.out.println("Celkova hmotnosť: " + this.totalWeigth);
+            System.out.println("Hodnota ucelovej funckie: " + totalCost);
 
+        }
 
 }
 

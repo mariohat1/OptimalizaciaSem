@@ -13,7 +13,7 @@ public class Reader {
        ArrayList<Integer> weights = readFromFile(weightFileName);
         ArrayList<Integer> costs = readFromFile(costFileName);
         for (int i = 0; i < weights.size(); i++) {
-            items.add(new Item(costs.get(i), weights.get(i)));
+            items.add(new Item(costs.get(i), weights.get(i),i+1));
         }
 
     }
